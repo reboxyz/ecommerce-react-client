@@ -1,0 +1,139 @@
+import React from 'react';
+import { useMediaQuery, TextField, Box } from '@mui/material';
+import { getIn } from 'formik'; // Note! This is handy if values is nested object
+
+const AddressForm = ({
+  type,
+  values,
+  errors,
+  touched,
+  handleBlur,
+  handleChange,
+}) => {
+  const isNonMobile = useMediaQuery('(min-width:600px)');
+
+  // These functions allow for better code readability
+  // Note! Deriving a form element name
+  const formattedName = (field) => `${type}.${field}`;
+
+  // Note! This is checking if there the field is touched and has an error
+  const formattedError = (field) =>
+    Boolean(
+      getIn(touched, formattedName(field)) &&
+        getIn(errors, formattedName(field))
+    );
+
+  // Note! This is showing an Error
+  const formattedHelper = (field) =>
+    getIn(touched, formattedName(field)) && getIn(errors, formattedName(field));
+
+  return (
+    <Box
+      display='grid'
+      gap='15px'
+      gridTemplateColumns='repeat(4, minmax(0, 1fr))' // Note! 0 to 1 fractional unit in 4 columns is equiv to 0 to 25%
+      sx={{
+        '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' }, // Target child divs when mobile will span the 4 columns which is effectively getting all spaces
+      }}
+    >
+      <TextField
+        fullWidth
+        type='text'
+        label='First Name'
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={values.firstName}
+        name={formattedName('firstName')}
+        error={formattedError('firstName')}
+        helperText={formattedHelper('firstName')}
+        sx={{ gridColumn: 'span 2' }}
+      />
+      <TextField
+        fullWidth
+        type='text'
+        label='Last Name'
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={values.lastName}
+        name={formattedName('lastName')}
+        error={formattedError('lastName')}
+        helperText={formattedHelper('lastName')}
+        sx={{ gridColumn: 'span 2' }}
+      />
+      <TextField
+        fullWidth
+        type='text'
+        label='Country'
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={values.country}
+        name={formattedName('country')}
+        error={formattedError('country')}
+        helperText={formattedHelper('country')}
+        sx={{ gridColumn: 'span 4' }}
+      />
+      <TextField
+        fullWidth
+        type='text'
+        label='Street Address'
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={values.street1}
+        name={formattedName('street1')}
+        error={formattedError('street1')}
+        helperText={formattedHelper('street1')}
+        sx={{ gridColumn: 'span 2' }}
+      />
+      <TextField
+        fullWidth
+        type='text'
+        label='Street Address 2 (optional)'
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={values.street2}
+        name={formattedName('street2')}
+        error={formattedError('street2')}
+        helperText={formattedHelper('street2')}
+        sx={{ gridColumn: 'span 2' }}
+      />
+      <TextField
+        fullWidth
+        type='text'
+        label='City'
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={values.city}
+        name={formattedName('city')}
+        error={formattedError('city')}
+        helperText={formattedHelper('city')}
+        sx={{ gridColumn: 'span 2' }}
+      />
+      <TextField
+        fullWidth
+        type='text'
+        label='State'
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={values.state}
+        name={formattedName('state')}
+        error={formattedError('state')}
+        helperText={formattedHelper('state')}
+        sx={{ gridColumn: '1fr' }}
+      />
+      <TextField
+        fullWidth
+        type='text'
+        label='Zip Code'
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={values.zipCode}
+        name={formattedName('zipCode')}
+        error={formattedError('zipCode')}
+        helperText={formattedHelper('zipCode')}
+        sx={{ gridColumn: '1fr' }}
+      />
+    </Box>
+  );
+};
+
+export default AddressForm;
